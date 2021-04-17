@@ -44,7 +44,7 @@ class Body {
 
        if (roll(1,10 - 10*target.accuracy) === 10 - 10*target.accuracy) {
            this.hp -= target.hp*power;
-            console.log(this.hp, target.name, power)
+            log(this.hp, target.name, power)
            
            return 'Попадание'
        }
@@ -56,10 +56,11 @@ class Body {
     }
 }
 
-const monster = new Body(['head', 'head', 'body', 'limbs', 'limbs', 'limbs', 'limbs', 'limbs', 'limbs', 'limbs'], 25, 30, 'Двухголовый');
-const player = new Body(['head', 'body', 'limbs', 'limbs', 'limbs', 'limbs'], 10, 100, 'Игрок');
+
 
 function game() {
+    const monster = new Body(['head', 'head', 'body', 'limbs', 'limbs', 'limbs', 'limbs', 'limbs', 'limbs', 'limbs'], 25, 30, 'Двухголовый');
+    const player = new Body(['head', 'body', 'limbs', 'limbs', 'limbs', 'limbs'], 10, 100, 'Игрок');
     let turn = 'player';
     let turnsCount = 0;
 
@@ -71,17 +72,16 @@ function game() {
         const targetPart = targetPartsForChoose[roll(0,targetPartsForChoose.length-1)];
         const power = actor.atack();
 
-        console.log(`${actor.name} стреляет в ${target.name} (${targetPart.name}). Сила ${power}`);
-        console.log(target.shoot(targetPart.id, power));
+        log(`${actor.name} стреляет в ${target.name} (${targetPart.name}). Сила ${power}`);
+        log(target.shoot(targetPart.id, power));
         switchTurn();
     }
     const winner = monster.hp > 0 ? monster : player;
 
-    console.log(`Победил ${winner.name} (${winner.hp})! Кол-во ходов: ${turnsCount}`);
+    log(`Победил ${winner.name} (${winner.hp})! Кол-во ходов: ${turnsCount}`);
 
     function switchTurn() {
         turnsCount++;
         turn = turn === 'player' ? 'monster' : 'player';
     }
 }
-game();
