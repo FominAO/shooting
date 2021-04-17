@@ -5,7 +5,7 @@ function roll(a = 0, b = 100) {
 function log(str) {
     const newLine = document.createElement('div');
 
-    newLine.setAttribute('innerHTML', str);
+    newLine.innerHTML = str;
     document.body.getElementsByClassName('game')[0].appendChild(newLine);
 }
 
