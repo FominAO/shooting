@@ -6,7 +6,7 @@ function log(str) {
     const newLine = document.createElement('div');
 
     newLine.setAttribute('innerHTML', str);
-    document.body.appendChild(newLine);
+    document.body.getElementsByClassName('game')[0].appendChild(newLine);
 }
 
 const targetsConfig = {
@@ -64,7 +64,7 @@ function game() {
     let turn = 'player';
     let turnsCount = 0;
 
-    document.body.innerHTML = '';
+    document.body.getElementsByClassName('game')[0].innerHTML = '';
     while (monster.hp > 0 && player.hp > 0) {
         const actor = turn === 'player' ? player : monster;
         const target = turn === 'player' ? monster : player;
