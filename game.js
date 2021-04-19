@@ -2,6 +2,10 @@ function roll(a = 0, b = 100) {
     return Math.round(a + Math.random()*(b-a));
 }
 
+function chanceProc(chance = 0.5) {
+    return Math.random() <= chance;
+}
+
 function log(str) {
     const newLine = document.createElement('div');
 
@@ -42,7 +46,7 @@ class Body {
     shoot(id, power) {
        const target = this.targets.find(i => i.id === id);
 
-       if (roll(1,10 - 10*target.accuracy) === 10 - 10*target.accuracy) {
+       if (chanceProc(target.accuracy)) {
            this.hp -= target.hp*power;
             log(this.hp, target.name, power)
            
