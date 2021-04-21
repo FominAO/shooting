@@ -63,8 +63,8 @@ class Body {
 
 
 function game() {
-    const monster = new Body(['head', 'head', 'body', 'limbs', 'limbs', 'limbs', 'limbs', 'limbs', 'limbs', 'limbs'], 25, 30, 'Двухголовый');
-    const player = new Body(['head', 'body', 'limbs', 'limbs', 'limbs', 'limbs'], 10, 100, 'Игрок');
+    const player = getSettingsFromInputs(0);
+    const monster = getSettingsFromInputs(1);
     let turn = 'player';
     let turnsCount = 0;
 
@@ -89,3 +89,41 @@ function game() {
         turn = turn === 'player' ? 'monster' : 'player';
     }
 }
+
+function setInputsDefault() {
+    const player = getInputs(0);
+    const monster = getInputs(1);
+
+    player.hp.value = 10;
+    player.dmg.value = 100;
+    player.heads.value = 1;
+    player.limbs.value = 4;
+    player.name.value = 'Игрок';
+
+    monster.hp.value = 25;
+    monster.dmg.value = 30;
+    monster.heads.value = 2;
+    monster.limbs.value = 7;
+    monster.name.value = 'Двухголовый';
+}
+
+function getSettingsFromInputs(i = 0) {
+    const body = getInputs(i);
+
+    const parts = [...new Array(+body.heads.value).fill('head'), 'body', ...new Array(+body.limbs.value).fill('limbs')];
+
+    return new Body(parts, +body.hp.value, +body.dmg.value, body.name.value);
+}
+
+function getInputs(i = 0) {
+    const body = document.getElementsByClassName('body')[i];
+    return {
+        hp: body.getElementsByClassName('hp')[0],
+        dmg: body.getElementsByClassName('dmg')[0],
+        heads: body.getElementsByClassName('heads')[0],
+        limbs: body.getElementsByClassName('limbs')[0],
+        name: body.getElementsByClassName('name')[0]
+    }
+}
+
+setInputsDefault();
