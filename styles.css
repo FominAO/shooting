@@ -1,0 +1,15 @@
+.bodies-list {
+    display: flex;
+}
+.body {
+    margin-right: 16px;
+}
+.input {
+    margin: 8px 0;
+}
+.input label {
+    font-size: 12px;
+}
+.input input {
+    padding: 4px;
+}
