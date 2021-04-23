@@ -5,6 +5,7 @@
     margin-right: 16px;
 }
 .input {
+    display: grid;
     margin: 8px 0;
 }
 .input label {

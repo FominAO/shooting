@@ -6,11 +6,20 @@ function chanceProc(chance = 0.5) {
     return Math.random() <= chance;
 }
 
-function log(str) {
+function roundTo(num, digs) {
+    return Math.round(num * Math.pow(10, digs)) / Math.pow(10, digs);
+}
+
+function log(str, toTop=false) {
     const newLine = document.createElement('div');
 
     newLine.innerHTML = str;
-    document.body.getElementsByClassName('game')[0].appendChild(newLine);
+
+    if (toTop) {
+        document.body.getElementsByClassName('game')[0].insertBefore(newLine, document.body.getElementsByClassName('game')[0].firstChild);
+    } else {
+        document.body.getElementsByClassName('game')[0].appendChild(newLine);
+    }
 }
 
 const targetsConfig = {
@@ -36,6 +45,8 @@ class Body {
     hp = 1;
     powerLimit = 1;
     name = 'NONE';
+    shotsCount = 0;
+    turnsCount = 0;
     constructor(parts, hp, power, name, conf = targetsConfig) {
         this.targets = parts.map((part, index) => ({...conf[part], id: index}));
         this.hp = hp;
@@ -46,10 +57,10 @@ class Body {
     shoot(id, power) {
        const target = this.targets.find(i => i.id === id);
 
+       this.turnsCount++;
        if (chanceProc(target.accuracy)) {
            this.hp -= target.hp*power;
-            log(this.hp, target.name, power)
-           
+           this.shotsCount++;
            return 'Попадание'
        }
        return 'Промах'
@@ -81,8 +92,10 @@ function game() {
         switchTurn();
     }
     const winner = monster.hp > 0 ? monster : player;
-
-    log(`Победил ${winner.name} (${winner.hp})! Кол-во ходов: ${turnsCount}`);
+    const looser = monster.hp > 0 ? player : monster;
+    
+    log('<br><hr><br>', true);
+    log(writeFinal(winner, looser), true);
 
     function switchTurn() {
         turnsCount++;
@@ -124,6 +137,11 @@ function getInputs(i = 0) {
         limbs: body.getElementsByClassName('limbs')[0],
         name: body.getElementsByClassName('name')[0]
     }
+}
+
+function writeFinal(winner = new Body(), looser = new Body()) {
+    return `${winner.name}(${roundTo(winner.hp,2)}) wins! Turns: ${winner.turnsCount + looser.turnsCount}
+    Winner ${winner.shotsCount} : ${looser.shotsCount} Looser`
 }
 
 setInputsDefault();
